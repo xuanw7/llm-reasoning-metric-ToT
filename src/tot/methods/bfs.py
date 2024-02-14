@@ -19,7 +19,7 @@ def get_value(task, x, y, n_evaluate_sample, cache_value=True, step = 0):
                 task.efficiency_count += 1
         value_names = value_output_lines[-1]
         
-        if (value_names == "sure"):
+        if ("sure" in value_names.lower()):
             task.efficiency_count -= 1
     #############
             
