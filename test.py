@@ -14,7 +14,7 @@ print(task.test)
 
 for i in range (900, 905):
 
-    ys, info = solve(args, task, 900)
+    ys, info = solve(args, task, i)
     num_deadend.append(task.efficiency_count)
 
     correct = 0
