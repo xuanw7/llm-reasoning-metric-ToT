@@ -3,24 +3,39 @@ import numpy as np
 from functools import partial
 from tot.models import gpt
 
-def get_value(task, x, y, n_evaluate_sample, cache_value=True):
+def get_value(task, x, y, n_evaluate_sample, cache_value=True, step = 0):
     value_prompt = task.value_prompt_wrap(x, y)
     if cache_value and value_prompt in task.value_cache:
         return task.value_cache[value_prompt]
     value_outputs = gpt(value_prompt, n=n_evaluate_sample, stop=None)
+
+    ##############
+    if (step < 3 and value_outputs and len(value_outputs) != 0):
+        value_output = value_outputs[0]
+        value_output_lines = value_output.split('\n')
+
+        for line in value_output_lines:
+            if "=" in line:
+                task.efficiency_count += 1
+        value_names = value_output_lines[-1]
+        
+        if (value_names == "sure"):
+            task.efficiency_count -= 1
+    #############
+            
     value = task.value_outputs_unwrap(x, y, value_outputs)
     if cache_value:
         task.value_cache[value_prompt] = value
     return value
 
-def get_values(task, x, ys, n_evaluate_sample, cache_value=True):
+def get_values(task, x, ys, n_evaluate_sample, cache_value=True, step = 0):
     values = []
     local_value_cache = {}
     for y in ys:  # each partial output
         if y in local_value_cache:  # avoid duplicate candidates
             value = 0
         else:    
-            value = get_value(task, x, y, n_evaluate_sample, cache_value=cache_value)
+            value = get_value(task, x, y, n_evaluate_sample, cache_value=cache_value, step=step)
             local_value_cache[y] = value
         values.append(value)
     return values
@@ -65,7 +80,7 @@ def solve(args, task, idx, to_print=True):
         if args.method_evaluate == 'vote':
             values = get_votes(task, x, new_ys, args.n_evaluate_sample)
         elif args.method_evaluate == 'value':
-            values = get_values(task, x, new_ys, args.n_evaluate_sample)
+            values = get_values(task, x, new_ys, args.n_evaluate_sample, step = step)
 
         # selection
         if args.method_select == 'sample':

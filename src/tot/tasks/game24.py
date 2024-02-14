@@ -34,6 +34,8 @@ class Game24Task(Task):
         self.value_cache = {}
         self.steps = 4
         self.stops = ['\n'] * 4
+        self.test = "Begin"
+        self.efficiency_count = 0
 
     def __len__(self) -> int:
         return len(self.data)
