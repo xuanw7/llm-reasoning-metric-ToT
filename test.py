@@ -12,7 +12,7 @@ num_deadend  = []
 correctness = []
 print(task.test)
 
-for i in range (900, 905):
+for i in range (900, 910):
 
     ys, info = solve(args, task, i)
     num_deadend.append(task.efficiency_count)
@@ -35,6 +35,8 @@ for i in range (900, 905):
 
 print(num_deadend)
 print(correctness)
+
+
 
 score = np.array(correctness) / np.log2(np.array(num_deadend) + 1)
 
