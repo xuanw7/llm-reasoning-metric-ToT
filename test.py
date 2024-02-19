@@ -12,7 +12,7 @@ num_deadend  = []
 correctness = []
 print(task.test)
 
-for i in range (900, 910):
+for i in range (910, 950):
 
     ys, info = solve(args, task, i)
     num_deadend.append(task.efficiency_count)
@@ -21,6 +21,7 @@ for i in range (900, 910):
     infos = [task.test_output(i, y) for y in ys]
     accs = [info['r'] for info in infos]
     print(accs)
+    print(i)
     for each in accs:
         if (each == 1 or each == '1'):
             correct = 1
