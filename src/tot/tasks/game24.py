@@ -36,6 +36,11 @@ class Game24Task(Task):
         self.stops = ['\n'] * 4
         self.test = "Begin"
         self.efficiency_count = 0
+        
+        # 这是老版本的分类，后面并在一起去了，然后统一清理了。见 test.py clean_deadend。
+        self.deadend_set_useful = set()
+        self.deadend_set_useless = set()
+
 
     def __len__(self) -> int:
         return len(self.data)

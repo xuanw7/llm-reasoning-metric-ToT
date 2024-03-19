@@ -1,9 +1,31 @@
-import numpy as np
-with open('result.npy', 'rb') as f:
-    a = np.load(f)
-    b = np.load(f)
-    c = np.load(f)
+import argparse
+from tot.methods.bfs import solve
+from tot.tasks.game24 import Game24Task
 
-print(a)
-print(b)
-print(c)
+import pickle 
+import numpy as np
+
+import re
+
+
+with open('result_0_5.txt','rb') as f:
+   results = pickle.load(f)
+
+for each in results:
+
+   print("----------------------------------------------------------------------")
+   print("All terminal nodes:", len(each[0]) + len(each[2]))
+   print("Cleaned terminal nodes:", len(each[0]))
+   print("Number of terminal nodes that reached 24: ", each[1])
+   print("Result of this problem: " , each[3])
+
+
+    
+
+        
+        
+
+    
+
+   
+   
