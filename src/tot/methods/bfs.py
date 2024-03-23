@@ -21,6 +21,7 @@ def separate_and_solve(expression):
         steps = []
 
         pattern = r'(\d+\.?\d*|\([^\(\)]+\))([+\-*\/])(\d+\.?\d*|\([^\(\)]+\))'
+        count = 0
         while re.search(pattern, expr):
             for sub_expr in re.finditer(pattern, expr):
                 left, operator, right = sub_expr.groups()
@@ -31,6 +32,9 @@ def separate_and_solve(expression):
                     # Replace the current sub-expression with its result in the original expression
                     expr = expr.replace(sub_expr.group(), str(result), 1)
                     break
+            if (count > 3):
+                break
+            count += 1
         return steps
 
     expression = re.sub(r'=', '', expression)
